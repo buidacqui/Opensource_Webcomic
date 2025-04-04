@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Menu quản lý</div>
+                <div class="card-header">Them truyen</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -16,7 +16,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                 
+                   
+
                 </div>
             </div>
         </div>

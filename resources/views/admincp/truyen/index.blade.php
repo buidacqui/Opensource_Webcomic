@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Menu quản lý</div>
+                <div class="card-header">Liet ke danh muc truyen</div>
 
                 <div class="card-body">
                     @if (session('status'))
