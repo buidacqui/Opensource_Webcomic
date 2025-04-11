@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@section('slide')
+@include('pages.slide')
+@endsection
 
 @include('layouts.nav')
 <!-- Bootstrap CSS -->
