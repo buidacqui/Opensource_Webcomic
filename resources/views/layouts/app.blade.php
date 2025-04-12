@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Sách truyện Toàn test</title>
+    <title>Sách truyện Toàn test123</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
