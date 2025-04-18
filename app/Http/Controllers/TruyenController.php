@@ -44,15 +44,19 @@ class TruyenController extends Controller
                         'slug_truyen' => 'required|max:255',
                         'hinhanh' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
                         'tomtat' => 'required',
+                        'tacgia' => 'required',
                         'kichhoat' => 'required',
                         'danhmuc' => 'required',
                     ],
             [
         
-                        'tentruyen.required' => 'Tên truyện phải có nhé',
-                        'tomtat.required' => 'Mô tả truyện phải có nhé',
-                        'slug_truyen.required' => 'Slug truyện phải có',
-                        'hinhanh.required' => 'Hình ảnh phải có '
+                'slug_truyen.unique'    => 'Tên truyện đã có ,xin điền tên khác',
+                'tentruyen.unique'      => 'Slug truyện đã có ,xin điền slug khác',
+                'tentruyen.required'    => 'Tên truyện phải có nhé',
+                'tomtat.required'       => 'Mô tả truyện phải có nhé',
+                'tacgia.required'       => 'Tác giả truyện phải có nhé',
+                'slug_truyen.required'  => 'Slug truyện phải có',
+                'hinhanh.required'      => 'Hình ảnh truyện phải có',
                     ]
                 );
                 $truyen = new Truyen();
@@ -61,6 +65,8 @@ class TruyenController extends Controller
         
                 $truyen->tomtat = $data['tomtat'];
                 $truyen->kichhoat = $data['kichhoat'];
+                $truyen->tacgia = $data['tacgia'];
+
                 $truyen->danhmuc_id = $data['danhmuc'];
 
                 $get_image = $request->hinhanh;
@@ -114,16 +120,20 @@ class TruyenController extends Controller
             [
                         'tentruyen' => 'required|unique:truyen|max:255',
                         'slug_truyen' => 'required|unique:truyen|max:255',
+                        'tacgia' => 'required',
+
                         'tomtat' => 'required',
+
                         'kichhoat' => 'required',
+                        
                         'danhmuc' => 'required',
                     ],
             [
-                        'slug_truyen.unique' => 'Tên truyện đã có, xin điền tên khác',
-                        'tentruyen.unique' => 'Slug truyện đã có, xin điền tên khác',
         
                         'tentruyen.required' => 'Tên truyện phải có nhé',
                         'tomtat.required' => 'Mô tả truyện phải có nhé',
+                        'tacgia.required'       => 'Tác giả truyện phải có nhé',
+
                         'slug_truyen.required' => 'Slug truyện phải có',
                     ]
                 );
@@ -133,6 +143,8 @@ class TruyenController extends Controller
         
                 $truyen->tomtat = $data['tomtat'];
                 $truyen->kichhoat = $data['kichhoat'];
+                $truyen->tacgia = $data['tacgia'];
+
                 $truyen->danhmuc_id = $data['danhmuc'];
 
                 $get_image = $request->hinhanh;

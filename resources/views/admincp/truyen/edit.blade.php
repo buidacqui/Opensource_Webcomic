@@ -32,6 +32,10 @@
                                 <input type="text" class="form-control" value="{{$truyen->tentruyen}}" onkeyup="ChangeToSlug();" name="tentruyen" id="slug" aria-describedby="emailHelp" placeholder="Tên truyện....">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Tác giả </label>
+                                <input type="text" class="form-control" value="{{$truyen->tacgia}}"  name="tacgia"  aria-describedby="emailHelp" placeholder="Tác giả">
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Slug truyện </label>
                                 <input type="text" class="form-control" value="{{$truyen->slug_truyen}}" name="slug_truyen" id="convert_slug" aria-describedby="emailHelp" placeholder="Slug truyện....">
                             </div>

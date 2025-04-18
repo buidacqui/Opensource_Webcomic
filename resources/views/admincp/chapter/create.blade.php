@@ -40,8 +40,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nội dung </label>
-                                <textarea name="noidung" class="form-control" rows="5" style="resize:none"></textarea>
+                                <textarea name="noidung" id="noidung_chapter" class="form-control" rows="5" style="resize:none"></textarea>
                             </div>
+                            @push('scripts')
+<script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (document.getElementById('noidung_chapter')) {
+                CKEDITOR.replace('noidung_chapter');
+            }
+        });
+    </script>
+@endpush
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Thuộc truyện</label>
                                 
@@ -70,4 +81,5 @@
         </div>
     </div>
 </div>
+
 @endsection
