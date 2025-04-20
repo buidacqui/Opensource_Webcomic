@@ -6,9 +6,11 @@
 @section('content')
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Library</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Data</li>
+    <li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('the-loai/' . $truyen_breadcrumb->theloai->slug_theloai) }}">{{$truyen_breadcrumb->theloai->tentheloai}}</a></li>
+
+    <li class="breadcrumb-item"><a href="{{ url('danh-muc/' . $truyen_breadcrumb->danhmuctruyen->slug_danhmuc) }}">{{$truyen_breadcrumb->danhmuctruyen->tendanhmuc}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{$truyen_breadcrumb->tentruyen}}</li>
   </ol>
 </nav>
 
@@ -19,15 +21,27 @@
 
     <div class="col-md-5">
       <div class="form-group">
+
+      <style>
+    .isDisabled {
+        color: #999; /* màu xám nhạt */
+        pointer-events: none;
+        opacity: 0.6;
+        text-decoration: none;
+        cursor: not-allowed;
+        transition: opacity 0.3s ease;
+    }
+</style>
+
                                     <label for="exampleInputEmail1">Chọn chương</label>
-                                   <p><a class="btn btn-primary" href="">Tập trước</a></p> 
+                                   <p><a class="btn btn-primary {{$chapter->id==$min_id->id ? 'isDisabled' : ''}}" href="{{url('xem-chapter/'.$previous_chapter)}}">Tập trước</a></p> 
 
                                     <select name="select-chapter"  class="custom-select select-chapter" >
                                                 @foreach($all_chapter as $key =>$chap)
                                             <option value="{{url('xem-chapter/'.$chap->slug_chapter)}}">{{$chap->tieude}}</option>
                                             @endforeach
                                     </select>
-                                 <p class="mt-2">  <a class="btn btn-primary" href="">Tập sau</a></p> 
+                                 <p class="mt-4">  <a class="btn btn-primary {{$chapter->id==$max_id->id ? 'isDisabled' : ''}} " href="{{url('xem-chapter/'.$next_chapter)}}">Tập sau</a></p> 
 
       </div>
     </div>

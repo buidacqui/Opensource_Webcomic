@@ -5,9 +5,9 @@
 @section('content')
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Library</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Data</li>
+    <li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('danh-muc/' . $truyen->danhmuctruyen->slug_danhmuc) }}">{{$truyen->danhmuctruyen->tendanhmuc}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{$truyen->tentruyen}}</li>
   </ol>
 </nav>
 <div class="row">
@@ -32,6 +32,11 @@
                     <li>Danh mục truyện:
                         <a href="{{ url('danh-muc/' . $truyen->danhmuctruyen->slug_danhmuc) }}">
                             {{ $truyen->danhmuctruyen->tendanhmuc }}
+                        </a>
+                    </li>
+                    <li>Thể loại truyện:
+                        <a href="{{ url('the-loai/' . $truyen->theloai->slug_theloai) }}">
+                            {{ $truyen->theloai->tentheloai }}
                         </a>
                     </li>
                     <li>Số chapter: 2000</li>

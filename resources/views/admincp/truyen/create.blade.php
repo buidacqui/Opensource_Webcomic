@@ -53,6 +53,16 @@
                             </select>
                             </div>
                             <div class="form-group">
+
+                            <label for="exampleInputEmail1">Thể loại truyện </label>
+
+                            <select name="theloai" class="customer-select">
+                                @foreach($theloai as $key => $the)
+                                <option value="{{$the->id}}">{{$the->tentheloai}}</option>
+                                @endforeach 
+                            </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh truyện </label>
                                 <input type="file" class="form-control-file"  name="hinhanh">
                             </div>

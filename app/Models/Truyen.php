@@ -10,7 +10,7 @@ class Truyen extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable =[
-        'tentruyen', 'tomtat','kichhoat','slug_truyen','hinhanh','danhmuc_id'
+        'tentruyen', 'tomtat','kichhoat','slug_truyen','hinhanh','danhmuc_id','theloai_id'
     ];
     protected $primaryKey= 'id';
     protected $table = 'truyen';
@@ -21,5 +21,8 @@ class Truyen extends Model
     public function chapter(){
         return $this->hasMany('App\Models\DanhmucTruyen','truyen_id','id');
 
+    }
+    public function theloai(){
+        return $this->belongsTo('App\Models\Theloai','theloai_id','id');
     }
 }

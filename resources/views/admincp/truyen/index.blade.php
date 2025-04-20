@@ -6,7 +6,7 @@
 <!-- Bootstrap CSS -->
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Liet ke danh muc truyen</div>
 
@@ -16,7 +16,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                <table class="table table-striped">
+                <table class="table table-striped" table-responsive>
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -25,6 +25,8 @@
                         <th scope="col">Slug truyện</th>
                         <th scope="col">Tóm tắt</th>
                         <th scope="col">Danh mục</th>
+                        <th scope="col">Thể loại </th>
+
                         <th scope="col">Kích hoạt</th>
                         <th scope="col">Quản lý</th>
                     </tr>
@@ -38,6 +40,8 @@
                             <td>{{$truyen->slug_truyen}}</td>
                             <td>{{$truyen->tomtat}}</td>
                             <td>{{$truyen->danhmuctruyen->tendanhmuc}}</td>
+                            <td>{{$truyen->theloai->tentheloai}}</td>
+
                             <td>
                                 @if($truyen->kichhoat==0)
                                 <span class="text text-success">Kích hoạt</span>
