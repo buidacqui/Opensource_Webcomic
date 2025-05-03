@@ -12,10 +12,11 @@ class DanhmucController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $danhmuctruyen = DanhmucTruyen::orderBy('id','DESC')->get();
-        return view ('admincp.danhmuctruyen.index')->with(compact('danhmuctruyen'));
-    }
+{
+    $danhmuctruyen = DanhmucTruyen::orderBy('id', 'DESC')->paginate(10); // 10 mục mỗi trang
+    return view('admincp.danhmuctruyen.index')->with(compact('danhmuctruyen'));
+}
+
 
     /**
      * Show the form for creating a new resource.

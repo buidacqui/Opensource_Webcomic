@@ -30,9 +30,14 @@
                                 <label for="exampleInputEmail1">Tên truyện </label>
                                 <input type="text" class="form-control" value="{{old('tentruyen')}}" onkeyup="ChangeToSlug();" name="tentruyen" id="slug" aria-describedby="emailHelp" placeholder="Tên truyện....">
                             </div>
+                            
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tác giả </label>
                                 <input type="text" class="form-control" value="{{old('tacgia')}}"  name="tacgia"  aria-describedby="emailHelp" placeholder="Tác giả">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Từ khóa </label>
+                                <input type="text" class="form-control" value="{{old('tukhoa')}}"  name="tukhoa" id="slug" aria-describedby="emailHelp" placeholder="Từ khóa">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Slug truyện </label>
@@ -53,15 +58,16 @@
                             </select>
                             </div>
                             <div class="form-group">
+    <label for="theloai">Thể loại truyện</label>
+    <select name="theloai" class="customer-select">
+        @foreach($theloai as $key => $the)
+            <option value="{{ $the->id }}">{{ $the->tentheloai }}</option>
+        @endforeach
+    </select>
+</div>
 
-                            <label for="exampleInputEmail1">Thể loại truyện </label>
 
-                            <select name="theloai" class="customer-select">
-                                @foreach($theloai as $key => $the)
-                                <option value="{{$the->id}}">{{$the->tentheloai}}</option>
-                                @endforeach 
-                            </select>
-                            </div>
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh truyện </label>
                                 <input type="file" class="form-control-file"  name="hinhanh">

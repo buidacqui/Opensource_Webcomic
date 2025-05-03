@@ -50,15 +50,15 @@
       </li>
       
     </ul>
-    <form class="form-inline my-2 my-lg-0" action ="{{url('tim-kiem')}}" method="GET">
-      <input class="form-control mr-sm-2" type="search" name="tukhoa" placeholder="Tìm kiếm tác giả, truyện...." aria-label="Search">
+    <form autocomplete="off" class="form-inline my-2 my-lg-0" action ="{{url('tim-kiem')}}" method="GET">
+      <input class="form-control mr-sm-2" type="search" id="keywords" name="tukhoa" placeholder="Tìm kiếm tác giả, truyện...." aria-label="Search">
+          <div id="search_ajax"></div>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
     </form>
   </div>
 </nav>
 <!----------------slide---------------------------->
 @yield('slide')
-
 <!----------------sach hay moi cap nhat---------------------------->
 @yield('content')
             <footer class="text-muted">
@@ -77,6 +77,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    
    <script type="text/javascript">
     $('.owl-carousel').owlCarousel({
     loop:true,

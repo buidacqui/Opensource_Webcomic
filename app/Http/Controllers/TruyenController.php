@@ -16,7 +16,7 @@ class TruyenController extends Controller
      */
     public function index()
     {
-        $list_truyen = Truyen::with('danhmuctruyen','theloai')->orderBy('id','DESC')->get();
+        $list_truyen = Truyen::with(['danhmuctruyen', 'theloai'])->orderBy('id', 'DESC')->paginate(10);
         return view ('admincp.truyen.index')->with(compact('list_truyen'));
     }
 
@@ -47,6 +47,7 @@ class TruyenController extends Controller
                         'hinhanh' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
                         'tomtat' => 'required',
                         'tacgia' => 'required',
+                        'tukhoa' => 'required',
                         'kichhoat' => 'required',
                         'danhmuc' => 'required',
                         'theloai' => 'required',
@@ -59,6 +60,8 @@ class TruyenController extends Controller
                 'tentruyen.required'    => 'Tên truyện phải có nhé',
                 'tomtat.required'       => 'Mô tả truyện phải có nhé',
                 'tacgia.required'       => 'Tác giả truyện phải có nhé',
+                'tukhoa.required'       => 'Tác giả truyện phải có nhé',
+
                 'slug_truyen.required'  => 'Slug truyện phải có',
                 'hinhanh.required'      => 'Hình ảnh truyện phải có',
                     ]
@@ -72,6 +75,7 @@ class TruyenController extends Controller
                 $truyen->tomtat = $data['tomtat'];
                 $truyen->kichhoat = $data['kichhoat'];
                 $truyen->tacgia = $data['tacgia'];
+                $truyen->tukhoa = $data['tukhoa'];
 
                 $truyen->danhmuc_id = $data['danhmuc'];
 
@@ -129,6 +133,7 @@ class TruyenController extends Controller
                         'tentruyen' => 'required|unique:truyen|max:255',
                         'slug_truyen' => 'required|unique:truyen|max:255',
                         'tacgia' => 'required',
+                        'tukhoa' => 'required',
 
                         'tomtat' => 'required',
 
@@ -143,6 +148,7 @@ class TruyenController extends Controller
                         'tentruyen.required' => 'Tên truyện phải có nhé',
                         'tomtat.required' => 'Mô tả truyện phải có nhé',
                         'tacgia.required'       => 'Tác giả truyện phải có nhé',
+                        'tukhoa.required'       => 'Từ khóa truyện phải có nhé',
 
                         'slug_truyen.required' => 'Slug truyện phải có',
                         'danhmuc.required' => 'Danh mục truyện phải có nhé',

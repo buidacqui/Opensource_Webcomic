@@ -25,6 +25,7 @@ Route::get('/xem-truyen/{slug}', [IndexController::class,'xemtruyen']);
 Route::get('/xem-chapter/{slug}', [IndexController::class,'xemchapter']);
 Route::get('/the-loai/{slug}', [IndexController::class,'theloai']);
 Route::get('/tim-kiem', [IndexController::class,'timkiem']);
+Route::get('ajax-all-truyen', [IndexController::class, 'getAllTruyen'])->name('ajax.all.truyen');
 
 Auth::routes();
 

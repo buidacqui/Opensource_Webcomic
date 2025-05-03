@@ -15,7 +15,7 @@ class ChapterController extends Controller
      */
     public function index()
     {
-        $chapter = Chapter::with('truyen')->orderBy('id','DESC')->get();
+        $chapter = Chapter::with('truyen')->orderBy('id', 'DESC')->paginate(10);
         return view('admincp.chapter.index')->with(compact('chapter'));
 
     }

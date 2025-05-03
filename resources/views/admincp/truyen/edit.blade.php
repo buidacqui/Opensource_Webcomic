@@ -36,6 +36,10 @@
                                 <input type="text" class="form-control" value="{{$truyen->tacgia}}"  name="tacgia"  aria-describedby="emailHelp" placeholder="Tác giả">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Từ khóa </label>
+                                <input type="text" class="form-control" value="{{old('tukhoa')}}"  name="tukhoa" id="slug" aria-describedby="emailHelp" placeholder="Từ khóa">
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Slug truyện </label>
                                 <input type="text" class="form-control" value="{{$truyen->slug_truyen}}" name="slug_truyen" id="convert_slug" aria-describedby="emailHelp" placeholder="Slug truyện....">
                             </div>

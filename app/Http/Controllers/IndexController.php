@@ -14,10 +14,16 @@ class IndexController extends Controller
         $theloai = Theloai::orderBy('id','DESC')->get();
         $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
         $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
-        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->get();
+        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(12)->get();
         return view('pages.home')->with(compact('danhmuc','truyen','theloai','slide_truyen'));
     }
+    public function getAllTruyen()
+    {
+        // Lấy tất cả truyện
+        $truyen = Truyen::all(); // Hoặc có thể tùy chỉnh theo logic của bạn
 
+        return response()->json($truyen); // Trả về dữ liệu dưới dạng JSON
+    }
     public function danhmuc($slug){
         $theloai = Theloai::orderBy('id','DESC')->get();
         $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
@@ -25,7 +31,7 @@ class IndexController extends Controller
         $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
         $danhmuc_id = DanhmucTruyen::where('slug_danhmuc',$slug)->first();
         $tendanhmuc = $danhmuc_id->tendanhmuc;
-        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->where('danhmuc_id',$danhmuc_id->id)->get();
+        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->where('danhmuc_id',$danhmuc_id->id)->paginate(12);
         return view('pages.danhmuc')->with(compact('danhmuc','truyen','tendanhmuc','theloai','slide_truyen'));
     }
     public function theloai($slug){
@@ -35,7 +41,8 @@ class IndexController extends Controller
 
         $theloai_id = Theloai::where('slug_theloai',$slug)->first();
         $tentheloai = $theloai_id->tentheloai;
-        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->where('theloai_id',$theloai_id->id)->get();
+        
+        $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->where('theloai_id',$theloai_id->id)->paginate(12);
         return view('pages.theloai')->with(compact('danhmuc','truyen','tentheloai','theloai','slide_truyen'));
     }
 
@@ -46,7 +53,7 @@ class IndexController extends Controller
 
         $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
         $truyen = Truyen::with('danhmuctruyen','theloai')->where('slug_truyen',$slug)->where('kichhoat',0)->first();
-    
+
         $chapter = Chapter::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->id)->get();
 
         $chapter_dau = Chapter::with('truyen')->orderBy('id','ASC')->where('truyen_id',$truyen->id)->first();
@@ -86,7 +93,6 @@ class IndexController extends Controller
             $tukhoa = $_GET['tukhoa'];
             $truyen = Truyen::with('danhmuctruyen','theloai')->where('tentruyen','LIKE','%'.$tukhoa.'%')->orWhere('tomtat','LIKE','%'.$tukhoa.'%')->orWhere('tacgia','LIKE','%'.$tukhoa.'%')->get();
             return view('pages.timkiem')->with(compact('danhmuc','truyen','theloai','tukhoa'));
-
         }
 
 }
