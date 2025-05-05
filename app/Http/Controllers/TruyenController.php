@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\DanhmucTruyen;
 use App\Models\Truyen;
 use App\Models\Theloai;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TruyenController extends Controller
@@ -46,6 +46,8 @@ class TruyenController extends Controller
                         'slug_truyen' => 'required|max:255',
                         'hinhanh' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
                         'tomtat' => 'required',
+                        'truyennoibat' => 'required',
+
                         'tacgia' => 'required',
                         'tukhoa' => 'required',
                         'kichhoat' => 'required',
@@ -76,7 +78,9 @@ class TruyenController extends Controller
                 $truyen->kichhoat = $data['kichhoat'];
                 $truyen->tacgia = $data['tacgia'];
                 $truyen->tukhoa = $data['tukhoa'];
+                $truyen->truyen_noibat = $data['truyennoibat'];
 
+                $truyen->created_at = Carbon::now('Asia/Ho_Chi_Minh');
                 $truyen->danhmuc_id = $data['danhmuc'];
 
                 $get_image = $request->hinhanh;
@@ -139,6 +143,7 @@ class TruyenController extends Controller
 
                         'kichhoat' => 'required',
                         'danhmuc' => 'required',
+                        'truyennoibat' => 'required',
 
                         'theloai' => 'required',
 
@@ -165,6 +170,9 @@ class TruyenController extends Controller
                 $truyen->danhmuc_id = $data['danhmuc'];
 
                 $truyen->tacgia = $data['tacgia'];
+                $truyen->truyen_noibat = $data['truyennoibat'];
+
+                $truyen->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
 
                 $get_image = $request->hinhanh;
@@ -200,4 +208,17 @@ class TruyenController extends Controller
         Truyen::find($id)->delete();
         return redirect()->back()->with('status','Xóa truyện thành công');
     }
+    public function updateNoibat(Request $request, $id)
+{
+    $truyen = Truyen::find($id);
+    if (!$truyen) {
+        return response()->json(['success' => false, 'message' => 'Truyện không tìm thấy'], 404);
+    }
+
+    $truyen->truyen_noibat = $request->truyennoibat;
+    $truyen->save();
+
+    return response()->json(['success' => true]);
+}
+
 }

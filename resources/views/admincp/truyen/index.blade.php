@@ -7,64 +7,52 @@
     .card-header-custom {
         background: linear-gradient(135deg, #4e54c8, #8f94fb);
         color: white;
-        font-weight: 600;
+        font-weight: bold;
         font-size: 1.25rem;
         display: flex;
         align-items: center;
         gap: 10px;
     }
 
-    .card {
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
     .img-thumb-custom {
-        width: 350px;
-        height: 160px;
+        width: 100px;
+        height: 70px;
         object-fit: cover;
-        border-radius: 6px;
+        border-radius: 4px;
         border: 1px solid #dee2e6;
-    }
-
-    .btn-action {
-        margin-bottom: 4px;
-        width: 100%;
     }
 
     .table td, .table th {
         vertical-align: middle;
+        font-size: 0.95rem;
     }
 
-    .table thead {
-        background-color: #f8f9fc;
+    .badge {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 12px;
     }
 
-    .badge-success, .badge-danger {
-        font-size: 0.9rem;
+    .btn-action {
+        width: 100%;
+        margin-bottom: 5px;
     }
 
     .pagination .page-link {
         color: #4e54c8;
         border-radius: 6px;
-        margin: 0 3px;
     }
 
     .pagination .page-item.active .page-link {
         background-color: #4e54c8;
         border-color: #4e54c8;
     }
-
-    .pagination .page-link:hover {
-        background-color: #8f94fb;
-        color: #fff;
-    }
 </style>
 
-<div class="container py-4">
+<div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header card-header-custom">
                     <i class="bi bi-journal-bookmark-fill"></i> Danh sách truyện
                 </div>
@@ -89,31 +77,52 @@
                                     <th>Danh mục</th>
                                     <th>Thể loại</th>
                                     <th>Kích hoạt</th>
-                                    <th>Quản lý</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Nổi bật</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($list_truyen as $key => $truyen)
                                     <tr>
                                         <td>{{ $list_truyen->firstItem() + $key }}</td>
-                                        <td class="text-start">{{ $truyen->tentruyen }}</td>
+                                        <td class="text-start fw-semibold">{{ $truyen->tentruyen }}</td>
                                         <td>
                                             <img src="{{ asset('public/uploads/truyen/'.$truyen->hinhanh) }}"
-                                                 alt="{{ $truyen->tentruyen }}"
-                                                 class="img-thumb-custom">
+                                                 alt="{{ $truyen->tentruyen }}" class="img-thumb-custom">
                                         </td>
                                         <td>{{ $truyen->slug_truyen }}</td>
                                         <td class="text-start" style="max-width: 250px;">
                                             {{ Str::limit($truyen->tomtat, 100) }}
                                         </td>
-                                        <td>{{ $truyen->danhmuctruyen->tendanhmuc }}</td>
-                                        <td>{{ $truyen->theloai->tentheloai }}</td>
+                                        <td>{{ $truyen->danhmuctruyen->tendanhmuc ?? '---' }}</td>
+                                        <td>{{ $truyen->theloai->tentheloai ?? '---' }}</td>
                                         <td>
-                                            @if($truyen->kichhoat == 0)
-                                                <span class="badge bg-success">Kích hoạt</span>
-                                            @else
-                                                <span class="badge bg-danger">Không kích hoạt</span>
-                                            @endif
+                                            <span class="badge {{ $truyen->kichhoat == 0 ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $truyen->kichhoat == 0 ? 'Hiển thị' : 'Ẩn' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ optional($truyen->created_at)->format('d/m/Y H:i') }}
+                                            <br>
+                                            <small class="text-muted">{{ optional($truyen->created_at)->diffForHumans() }}</small>
+                                        </td>
+                                        <td>
+                                            {{ optional($truyen->updated_at)->format('d/m/Y H:i') }}
+                                            <br>
+                                            <small class="text-muted">{{ optional($truyen->updated_at)->diffForHumans() }}</small>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('truyen.update_noibat', [$truyen->id]) }}" method="POST" class="noibat-form" data-id="{{ $truyen->id }}">
+                                                @csrf
+                                                @method('PUT')
+                                                <select name="truyennoibat" class="form-select form-select-sm">
+                                                    <option value="0" {{ $truyen->truyen_noibat == 0 ? 'selected' : '' }}>Truyện mới</option>
+                                                    <option value="1" {{ $truyen->truyen_noibat == 1 ? 'selected' : '' }}>Truyện nổi bật</option>
+                                                    <option value="2" {{ $truyen->truyen_noibat == 2 ? 'selected' : '' }}>Truyện xem nhiều</option>
+                                                </select>
+                                            </form>
                                         </td>
                                         <td>
                                             <a href="{{ route('truyen.edit', [$truyen->id]) }}"
@@ -135,14 +144,50 @@
                         </table>
                     </div>
 
-                    {{-- Pagination --}}
-                    <div class="d-flex justify-content-center mt-4">
+                    <div class="d-flex justify-content-center mt-3">
                         {{ $list_truyen->links() }}
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Thêm sự kiện thay đổi cho dropdown
+    document.querySelectorAll('.noibat-form').forEach(form => {
+        form.addEventListener('change', function () {
+            const id = this.dataset.id;
+            const select = this.querySelector('select');
+            const value = select.value;
+
+            fetch(`/truyen/update-noibat/${id}`, {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({ truyennoibat: value })
+})
+
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Đã cập nhật trạng thái truyện nổi bật!');
+                } else {
+                    alert('Có lỗi xảy ra!');
+                }
+            })
+            .catch(err => {
+                alert('Lỗi kết nối server!');
+                console.error(err);
+            });
+        });
+    });
+});
+</script>
+@endpush
+
 @endsection
