@@ -7,11 +7,59 @@ use App\Models\DanhmucTruyen;
 use App\Models\Truyen;
 use App\Models\Chapter; 
 use App\Models\Theloai; 
+use App\Models\Sach; 
+use App\Models\Publisher; 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
-  
+    public function register_publisher(Request $request){
+        $data = $request->validate(
+            [
+                        'username' => 'required|unique:publishers|max:100',
+                        'email' => 'required|unique:publishers|max:100',
+        
+                        'password' => 'required|required_with:password_confirmation|same:password|max:100',
+                        'fullname' => 'required|max:150',
+                        'sdt' => 'required|max:255',
+                    ],
+            [
+                        'username.unique' => 'Tên username đã có, xin điền tên khác',
+                        'email.unique' => 'Tên email đã có, xin điền tên khác',
+                        'username.required' => 'Tên username phải có nhé',
+                        'email.required' => 'Tên email phải có nhé',
+
+                        'password.required' => 'Mật khẩu phải có nhé',
+                        'fullname.required' => 'fullname phải có nhé',
+                        'sdt.required' => 'Số điện thoại phải có nhé',
+
+                    ]
+                );
+                $publisher = new Publisher();
+                $publisher->email = $data['email'];
+                $publisher->password = md5($data['password']);
+        
+                $publisher->username = $data['username'];
+                $publisher->fullname = $data['fullname'];
+                $publisher->sdt = $data['sdt'];
+                $publisher->date_created =  Carbon::now('Asia/Ho_Chi_Minh');
+
+                $publisher->save();
+                return redirect()->back()->with('status','Đăng ký thành công');
+    }
+    public function dangky(){
+        $theloai = Theloai::orderBy('id','DESC')->get();
+        // $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
+        $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
+        return view('pages.users.dangky')->with(compact('danhmuc','theloai'));
+    }
+  public function dangnhap(){
+    $theloai = Theloai::orderBy('id','DESC')->get();
+    // $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
+    $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
+    return view('pages.users.dangnhap')->with(compact('danhmuc','theloai'));
+  }
     public function tabs_danhmuc(Request $request)
     {
         $danhmuc_id = $request->input('danhmuc_id');
@@ -45,6 +93,29 @@ class IndexController extends Controller
         }
     
         return response()->json($output);
+    }
+    public function docsach() {
+        // $info = Info::find(1);
+        // $title = $info->tieude;
+    
+        // // SEO metadata
+        // $meta_desc = $info->mota;
+        // $meta_keywords = 'sachtruyen247, doc truyen tranh, doc truyen trinh tham, doc truyen tranh';
+        // $url_canonical = URL::current();
+        // $og_image = url('public/uploads/logo/' . $info->logo);
+        // $link_icon = url('public/uploads/logo/' . $info->logo);
+    
+        // Lấy danh sách thể loại
+        $theloai = TheLoai::orderBy('id', 'DESC')->get();
+    
+     
+        // Lấy danh sách danh mục và sách
+        $danhmuc = DanhmucTruyen::orderBy('id', 'DESC')->get();
+        $sach = Sach::orderBy('id', 'DESC')->where('kichhoat', 0)->paginate(12);
+    
+        return view('pages.sach')->with(compact(
+            'danhmuc', 'sach', 'theloai',
+        ));
     }
     
     public function home(){
@@ -82,7 +153,13 @@ class IndexController extends Controller
         $truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->where('theloai_id',$theloai_id->id)->paginate(12);
         return view('pages.theloai')->with(compact('danhmuc','truyen','tentheloai','theloai','slide_truyen'));
     }
-
+    public function xemsachnhanh(Request $request){
+        $sach_id = $request->sach_id;
+        $sach = Sach::find($sach_id);
+        $output['tieude_sach'] = $sach->tensach;
+        $output['noidung_sach'] = $sach->noidung;
+        echo json_encode($output);
+    }
     public function xemtruyen($slug){
         $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
 

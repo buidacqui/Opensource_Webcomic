@@ -14,9 +14,9 @@
     <ol class="breadcrumb bg-light px-3 py-2 rounded">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Trang chủ</a></li>
         <li class="breadcrumb-item">
-            <a href="{{ url('danh-muc/' . $truyen->danhmuctruyen->slug_danhmuc) }}">
-                {{ $truyen->danhmuctruyen->tendanhmuc }}
-            </a>
+        @foreach($truyen->thuocnhieudanhmuctruyen as $thuocdanh)
+                        <a href="{{url('danh-muc/'.$thuocdanh->slug_danhmuc)}}"><span >{{$thuocdanh->tendanhmuc}}</span></a>
+                        @endforeach
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{ $truyen->tentruyen }}</li>
     </ol>
@@ -56,16 +56,16 @@
                     </li>
                     <li class="list-group-item"><strong>Tác giả:</strong> {{ $truyen->tacgia }}</li>
                     <li class="list-group-item">
-                        <strong>Danh mục:</strong> 
-                        <a href="{{ url('danh-muc/' . $truyen->danhmuctruyen->slug_danhmuc) }}">
-                            {{ $truyen->danhmuctruyen->tendanhmuc }}
-                        </a>
+                    Danh mục truyện: 
+                        @foreach($truyen->thuocnhieudanhmuctruyen as $thuocdanh)
+                        <a href="{{url('danh-muc/'.$thuocdanh->slug_danhmuc)}}"><span class="badge badge-dark">{{$thuocdanh->tendanhmuc}}</span></a>
+                        @endforeach
                     </li>
                     <li class="list-group-item">
-                        <strong>Thể loại:</strong> 
-                        <a href="{{ url('the-loai/' . $truyen->theloai->slug_theloai) }}">
-                            {{ $truyen->theloai->tentheloai }}
-                        </a>
+                        Thể loại truyện: 
+                        @foreach($truyen->thuocnhieutheloaitruyen as $thuocloai)
+                        <a href="{{url('the-loai/'.$thuocloai->slug_theloai)}}"><span class="badge badge-info">{{$thuocloai->tentheloai}}</span></a>
+                        @endforeach
                     </li>
                     <li class="list-group-item"><strong>Số chapter:</strong> 2000</li>
                     <li class="list-group-item"><strong>Lượt xem:</strong> 2000</li>

@@ -4,6 +4,7 @@
 @include('layouts.nav')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -40,11 +41,10 @@
                             <label for="slug">Tên Sách</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control"  name="views"
-                                   value="{{ $sach->views }}" onkeyup="ChangeToSlug();" placeholder="Lượt xem">
+                            <input type="text" class="form-control" name="views"
+                                   value="{{ $sach->views }}" placeholder="Lượt xem">
                             <label for="slug">Lượt xem</label>
                         </div>
-                        
 
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="tukhoa"
@@ -54,7 +54,7 @@
 
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="convert_slug" name="slug_sach"
-                                   value="{{ $sach->slug_sach}}" placeholder="Slug sách">
+                                   value="{{ $sach->slug_sach}}" placeholder="Slug sách" readonly>
                             <label for="convert_slug">Slug sách</label>
                         </div>
 
@@ -64,18 +64,18 @@
                                       placeholder="Nhập nội dung tóm tắt">{{ $sach->tomtat }}</textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Nội dung sách</label>
-                            <textarea name="noidung" class="form-control" rows="5" style="resize: none"
-                                      placeholder="Nhập nội dung ">{{ $sach->noidung}}</textarea>
-                        </div>
-                       
+                                            <div class="mb-3">
+                        <label class="form-label fw-semibold">Nội dung sách</label>
+                        <textarea name="noidung" id="noidung" class="form-control" rows="5" style="resize: none"
+                                placeholder="Nhập nội dung ">{{ $sach->noidung }}</textarea>
+                    </div>
+
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Hình ảnh sách</label>
                             <input type="file" class="form-control" name="hinhanh">
                             <img src="{{ asset('public/uploads/sach/'.$sach->hinhanh) }}"
-                            alt="Ảnh truyện" height="300" width="180" class="border rounded">
+                                 alt="Ảnh sách" height="300" width="180" class="border rounded mt-2">
                         </div>
 
                         <div class="mb-3">
@@ -85,18 +85,9 @@
                                 <option value="1" {{ $sach->kichhoat == 1 ? 'selected' : '' }}>Không kích hoạt</option>
                             </select>
                         </div>
-                        <!-- <div class="mb-4">
-                            <label class="form-label fw-semibold">Truyện nổi bật/hot</label>
-                            <select name="truyennoibat" class="form-select">
-                                <option value="0">Truyện mới</option>
-                                <option value="1">Truyện nổi bật</option>
-                                <option value="2">Truyện xem nhiều</option>
-
-                            </select>
-                        </div> -->
 
                         <div class="text-center">
-                        <button type="submit" name="capnhatsach" class="btn btn-success px-4 py-2 fw-bold shadow-sm">
+                            <button type="submit" name="capnhatsach" class="btn btn-success px-4 py-2 fw-bold shadow-sm">
                                 <i class="bi bi-plus-circle me-1"></i> Cập nhật sách
                             </button>
                         </div>
@@ -107,4 +98,25 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+    <script>
+        // Khởi tạo CKEditor cho nội dung sách
+        document.addEventListener("DOMContentLoaded", function () {
+            if (document.getElementById('noidung')) {
+                CKEDITOR.replace('noidung');
+            }
+        });
+
+        // Hàm chuyển đổi tên sách thành slug
+        function ChangeToSlug() {
+            var title = document.getElementById("slug").value;
+            var slug = title.toLowerCase().trim()
+                            .replace(/[^a-z0-9]+/g, '-')
+                            .replace(/^-+|-+$/g, '');
+            document.getElementById("convert_slug").value = slug;
+        }
+    </script>
+@endpush
 @endsection

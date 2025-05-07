@@ -64,11 +64,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Nội dung sách</label>
-                            <textarea name="noidung" class="form-control" rows="5" style="resize: none"
-                                      placeholder="Nhập nội dung ">{{ old('noidung') }}</textarea>
+                            <label for="noidung_sach" class="form-label fw-semibold">Nội dung</label>
+                            <textarea name="noidung" id="noidung_sach" class="form-control" rows="6"
+                                      style="resize: none;">{{ old('noidung') }}</textarea>
                         </div>
-                       
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Hình ảnh sách</label>
@@ -104,4 +103,15 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (document.getElementById('noidung_sach')) {
+                CKEDITOR.replace('noidung_sach');
+            }
+        });
+    </script>
+    
+@endpush
 @endsection

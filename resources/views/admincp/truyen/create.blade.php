@@ -27,7 +27,7 @@
                     @if (session('status'))
                         <div class="alert alert-success text-center" role="alert">
                             {{ session('status') }}
-                        </div>
+                        </div>  
                     @endif
 
                     <form method="POST" action="{{ route('truyen.store') }}" enctype="multipart/form-data">
@@ -64,21 +64,23 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Danh mục truyện</label>
-                            <select name="danhmuc" class="form-select">
-                                @foreach ($danhmuc as $muc)
-                                    <option value="{{ $muc->id }}">{{ $muc->tendanhmuc }}</option>
+                            <label class="form-label fw-semibold">Danh mục truyện</label><br>
+                                @foreach ($danhmuc as $key => $muc)
+                                <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="danhmuc[]" id="danhmuc_{{$muc->id}}" value="{{$muc->id}}">
+                                <label class="form-check-label" for="danhmuc_{{$muc->id}}">{{$muc->tendanhmuc}}</label>
+                                </div>
                                 @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Thể loại truyện</label>
-                            <select name="theloai" class="form-select">
-                                @foreach ($theloai as $the)
-                                    <option value="{{ $the->id }}">{{ $the->tentheloai }}</option>
+                            <label class="form-label fw-semibold">Thể loại truyện</label><br>
+                                @foreach ($theloai as $key=> $the)
+                                <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="theloai[]" id="theloai_{{$the->id}}" value="{{$the->id}}">
+                                <label class="form-check-label" for="theloai_{{$the->id}}">{{$the->tentheloai}}</label>
+                                </div>
                                 @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-3">

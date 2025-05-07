@@ -5,6 +5,9 @@ use App\Models\DanhmucTruyen;
 use App\Models\Truyen;
 use App\Models\Theloai;
 use Carbon\Carbon;
+use App\Models\ThuocDanh;
+use App\Models\ThuocLoai;
+
 use Illuminate\Http\Request;
 
 class TruyenController extends Controller
@@ -68,12 +71,10 @@ class TruyenController extends Controller
                 'hinhanh.required'      => 'Hình ảnh truyện phải có',
                     ]
                 );
+                $data = $request->all();
                 $truyen = new Truyen();
                 $truyen->tentruyen = $data['tentruyen'];
                 $truyen->slug_truyen = $data['slug_truyen'];
-                $truyen->theloai_id = $data['theloai'];
-
-        
                 $truyen->tomtat = $data['tomtat'];
                 $truyen->kichhoat = $data['kichhoat'];
                 $truyen->tacgia = $data['tacgia'];
@@ -81,8 +82,13 @@ class TruyenController extends Controller
                 $truyen->truyen_noibat = $data['truyennoibat'];
 
                 $truyen->created_at = Carbon::now('Asia/Ho_Chi_Minh');
-                $truyen->danhmuc_id = $data['danhmuc'];
 
+                foreach($data['danhmuc'] as $key => $danh){
+                    $truyen->danhmuc_id = $danh[0];
+                }
+                foreach($data['theloai'] as $key => $the){
+                    $truyen->theloai_id = $the[0];
+                }
                 $get_image = $request->hinhanh;
                 $path = 'public/uploads/truyen/';
                     $get_name_image = $get_image->getClientOriginalName();
@@ -93,6 +99,9 @@ class TruyenController extends Controller
 
 
                 $truyen->save();
+                $truyen->thuocnhieudanhmuctruyen()->attach($data['danhmuc']);
+                $truyen->thuocnhieutheloaitruyen()->attach($data['theloai']);
+
                 return redirect()->back()->with('status','Thêm truyện thành công');
     }
 

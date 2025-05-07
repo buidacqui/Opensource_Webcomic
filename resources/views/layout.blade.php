@@ -68,7 +68,25 @@
           @endforeach          
         </div>
       </li>
-      
+     
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sách
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{url('doc-sach')}}">Sách</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-tags" aria-hidden="true"></i>Khách
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{route('dang-ky')}}"><i class="fa fa-users" aria-hidden="true"></i>Đăng ký</a>
+          <a class="dropdown-item" href="{{route('dang-nhap')}}"><i class="fa fa-user" aria-hidden="true"></i>Đăng nhập</a>
+
+        </div>
+      </li>
     </ul>
     <form autocomplete="off" class="form-inline my-2 my-lg-0" action ="{{url('tim-kiem')}}" method="GET">
       <input class="form-control mr-sm-2" type="search" id="keywords" name="tukhoa" placeholder="Tìm kiếm tác giả, truyện...." aria-label="Search">
@@ -86,16 +104,17 @@
 @yield('slide')
 <!----------------sach hay moi cap nhat---------------------------->
 @yield('content')
-            <footer class="text-muted">
-                  <div class="container">
-                    <p class="float-right">
-                      <a href="#">Back to top</a>
-                    </p>
-                    <p>Album example is © Bootstrap, but please download and customize it for yourself!</p>
-                    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
-                  </div>
-                </footer>
-            </div>
+<div class="sharethis-inline-share-buttons my-4"></div>
+
+<footer class="text-muted bg-light py-4 border-top mt-5">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <p class="mb-2 mb-md-0">
+      📖 Cảm ơn bạn đã ghé thăm! Chúc bạn có những giây phút đọc sách truyện thật thú vị.
+    </p>
+    <a href="#" class="text-decoration-none">⬆️ Lên đầu trang</a>
+  </div>
+</footer>
+
 
 
 
@@ -249,7 +268,24 @@ $(document).ready(function(){
     });
   });
 </script>
+<script type="text/javascript">
+  $(document).on('click', '.xemnhanh', function () {
+    var sach_id = $(this).attr('id');
+    var _token = $('input[name="_token"]').val();
 
+    $.ajax({
+      url: '{{ url("/xemsachnhanh") }}',
+      method: 'POST',
+      dataType: 'JSON',
+      data: { sach_id: sach_id, _token: _token },
+      success: function (data) {
+        $('#tieude_sach').html(data.tieude_sach);
+        $('#noidung_sach').html(data.noidung_sach);
+      }
+    });
+  });
+</script>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=681addedaa8d70001991d5df&product=inline-share-buttons&source=platform" async="async"></script>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0"></script>
     </body>
