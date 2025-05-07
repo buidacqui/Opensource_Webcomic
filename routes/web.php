@@ -36,7 +36,10 @@ Route::get('/doc-sach', [IndexController::class, 'docsach']);
 Route::get('/xemsachnhanh', [IndexController::class, 'xemsachnhanh']);
 Route::get('/dang-ky', [IndexController::class, 'dangky'])->name('dang-ky');
 Route::get('/dang-nhap', [IndexController::class, 'dangnhap'])->name('dang-nhap');
+Route::get('/dang-xuat', [IndexController::class, 'sign_out'])->name('dang-xuat');
+
 Route::post('/register-publisher', [IndexController::class, 'register_publisher'])->name('register-publisher');
+Route::post('/login-publisher', [IndexController::class, 'login_publisher'])->name('login-publisher');
 
 Route::resource('/danhmuc', DanhmucController::class);
 Route::resource('/truyen', TruyenController::class);

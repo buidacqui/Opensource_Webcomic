@@ -10,6 +10,7 @@ use App\Models\Theloai;
 use App\Models\Sach; 
 use App\Models\Publisher; 
 use Carbon\Carbon;
+use Session;
 use Illuminate\Support\Str;
 
 class IndexController extends Controller
@@ -59,6 +60,39 @@ class IndexController extends Controller
     // $slide_truyen = Truyen::orderBy('id','DESC')->where('kichhoat',0)->take(8)->get();
     $danhmuc = DanhmucTruyen::orderBy('id','DESC')->get();
     return view('pages.users.dangnhap')->with(compact('danhmuc','theloai'));
+  }
+  public function login_publisher(Request $request){
+    $data = $request->validate(
+        [
+                    'username' => 'required',    
+                    'password' => 'required',
+                ],
+        [
+                    'username.required' => 'Tên username phải có nhé',
+                    'password.required' => 'Mật khẩu phải có nhé',
+                ]
+            );
+           $publisher = Publisher::where('username',$data['username'])->where('password',md5($data['password']))->first();
+           if($publisher){
+                    Session::put('login_publisher',true);
+                    Session::put('publisher_id',$publisher->id);
+                    Session::put('username',$publisher->username);
+                    Session::put('email_publisher',$publisher->email);
+                    return redirect()->back()->with('status','Đăng nhập thành công');
+
+           }
+           else{
+            return redirect()->back()->with('status','Mật khẩu hoặc tên đăng nhập sai, vui lòng thử lại!');
+
+           }
+  }
+  public function sign_out(){
+                    Session::forget('login_publisher');
+                    Session::forget('publisher_id');
+                    Session::forget('username');
+                    Session::forget('email_publisher');
+                    return redirect()->back()->with('status','Đăng xuất thành công');
+
   }
     public function tabs_danhmuc(Request $request)
     {

@@ -37,69 +37,101 @@
     <body>
         <div class="container">
             <!------------Menu------------->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Sach truyện</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+  <a class="navbar-brand font-weight-bold text-primary" href="#">Sách Truyện</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarMenu">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{url('/')}}">Trang chủ <span class="sr-only">(current)</span></a>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home mr-1"></i>Trang chủ</a>
       </li>
-      
+
+      <!-- Danh mục truyện -->
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Danh mục truyện
+        <a class="nav-link dropdown-toggle" href="#" id="menuDanhmuc" role="button" data-toggle="dropdown">
+          <i class="fa fa-list mr-1"></i>Danh mục truyện
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu">
           @foreach($danhmuc as $key => $danh)
-          <a class="dropdown-item" href="{{url('danh-muc/'.$danh->slug_danhmuc)}}">{{$danh->tendanhmuc}}</a>
+            <a class="dropdown-item" href="{{ url('danh-muc/'.$danh->slug_danhmuc) }}">{{ $danh->tendanhmuc }}</a>
           @endforeach
         </div>
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Thể loại
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        @foreach($theloai as $key => $the)
-          <a class="dropdown-item" href="{{url('the-loai/'.$the->slug_theloai)}}">{{$the->tentheloai}}</a>
-          @endforeach          
-        </div>
       </li>
-     
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Sách
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{url('doc-sach')}}">Sách</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-tags" aria-hidden="true"></i>Khách
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{route('dang-ky')}}"><i class="fa fa-users" aria-hidden="true"></i>Đăng ký</a>
-          <a class="dropdown-item" href="{{route('dang-nhap')}}"><i class="fa fa-user" aria-hidden="true"></i>Đăng nhập</a>
 
+      <!-- Thể loại -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="menuTheloai" role="button" data-toggle="dropdown">
+          <i class="fa fa-tags mr-1"></i>Thể loại
+        </a>
+        <div class="dropdown-menu">
+          @foreach($theloai as $key => $the)
+            <a class="dropdown-item" href="{{ url('the-loai/'.$the->slug_theloai) }}">{{ $the->tentheloai }}</a>
+          @endforeach
         </div>
       </li>
+
+      <!-- Sách -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('doc-sach') }}"><i class="fa fa-book mr-1"></i>Sách</a>
+      </li>
+
+      <!-- Đăng nhập / Profile -->
+      @if(!Session::get('login_publisher'))
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="menuLogin" role="button" data-toggle="dropdown">
+          <i class="fa fa-user mr-1"></i>Đăng nhập
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{ route('dang-ky') }}"><i class="fa fa-user-plus mr-1"></i>Đăng ký</a>
+          <a class="dropdown-item" href="{{ route('dang-nhap') }}"><i class="fa fa-sign-in mr-1"></i>Đăng nhập</a>
+        </div>
+      </li>
+      @else
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="menuProfile" role="button" data-toggle="dropdown">
+          <i class="fa fa-user-circle mr-1"></i>Chào, {{ Session::get('username') }}
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><i class="fa fa-pencil-square-o mr-1"></i>Truyện đã đăng</a>
+          <a class="dropdown-item" href="#"><i class="fa fa-id-card mr-1"></i>Thông tin cơ bản</a>
+          <a class="dropdown-item" href="{{ route('dang-xuat') }}"><i class="fa fa-sign-out mr-1"></i>Đăng xuất</a>
+        </div>
+      </li>
+      @endif
+
     </ul>
-    <form autocomplete="off" class="form-inline my-2 my-lg-0" action ="{{url('tim-kiem')}}" method="GET">
-      <input class="form-control mr-sm-2" type="search" id="keywords" name="tukhoa" placeholder="Tìm kiếm tác giả, truyện...." aria-label="Search">
-          <div id="search_ajax"></div>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
-      <select class="custom-select mr-sm-2" id="switch_color">
-        <option value="xam">Trắng</option>
-        <option value="den">Đen</option>
-
-      </select>
-    </form>
   </div>
 </nav>
+
+<form autocomplete="off" action="{{ url('tim-kiem') }}" method="GET" class="form-inline justify-content-center p-3 bg-light rounded shadow-sm">
+  <div class="input-group w-50">
+    <input 
+      type="search" 
+      id="keywords" 
+      name="tukhoa" 
+      class="form-control border-right-0" 
+      placeholder="Tìm kiếm tác giả, truyện..." 
+      aria-label="Search"
+    >
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">🔍 Tìm kiếm</button>
+    </div>
+  </div>
+
+  <div class="ml-3">
+    <select class="custom-select" id="switch_color">
+      <option value="xam">🌤 Giao diện sáng</option>
+      <option value="den">🌙 Giao diện tối</option>
+    </select>
+  </div>
+
+  <div id="search_ajax" class="w-100 mt-2"></div>
+</form>
+
 <!----------------slide---------------------------->
 @yield('slide')
 <!----------------sach hay moi cap nhat---------------------------->
