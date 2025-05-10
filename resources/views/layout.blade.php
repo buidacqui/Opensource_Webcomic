@@ -32,6 +32,7 @@
                   color: #000 !important;
 
                 }
+                
              </style>
     </head>
     <body>
@@ -96,8 +97,9 @@
           <i class="fa fa-user-circle mr-1"></i>Chào, {{ Session::get('username') }}
         </a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><i class="fa fa-pencil-square-o mr-1"></i>Truyện đã đăng</a>
-          <a class="dropdown-item" href="#"><i class="fa fa-id-card mr-1"></i>Thông tin cơ bản</a>
+          <a class="dropdown-item" href="{{ route('yeu-thich')}}"><i class="fa fa-heart"></i>Yêu thích</a>
+          <a class="dropdown-item" href="{{ route('lichsu.history') }}"><i class="fa fa-heart"></i>Lịch sử đọc</a>
+          <a class="dropdown-item" href="{{route('thong-tin')}}"><i class="fa fa-id-card mr-1"></i>Thông tin cơ bản</a>
           <a class="dropdown-item" href="{{ route('dang-xuat') }}"><i class="fa fa-sign-out mr-1"></i>Đăng xuất</a>
         </div>
       </li>
@@ -300,6 +302,34 @@ $(document).ready(function(){
     });
   });
 </script>
+<script>
+  function themyeuthich(){
+    // alert('ok đã thích');
+    var title = $('.btn-yeuthichtruyen').data('fa_title');
+    var image = $('.btn-yeuthichtruyen').data('fa_image');
+    var publisher_id = $('.btn-yeuthichtruyen').data('fa_publisher_id');
+    var _token = $('input[name="_token"]').val(); 
+
+    // alert(title);
+    // alert(image);
+    // alert(publisher_id);
+    $.ajax({
+      url: '{{ route('themyeuthich') }}',
+      method: 'POST',
+      data: { title:title,image:image,publisher_id:publisher_id,_token:_token },
+      success: function (data) {
+        if(data=='Fail'){
+          alert('Truyện đã có trong yêu thích')
+        } else
+        {
+          alert('thêm yêu thích thành công');
+
+        }
+      }
+    });
+
+  }
+</script>
 <script type="text/javascript">
   $(document).on('click', '.xemnhanh', function () {
     var sach_id = $(this).attr('id');
@@ -322,3 +352,129 @@ $(document).ready(function(){
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0"></script>
     </body>
 </html>
+<style>
+ .navbar {
+    background-color: #fff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+.navbar .navbar-brand {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.navbar .navbar-nav .nav-link {
+    font-weight: 500;
+    color: #333;
+    padding: 10px 15px;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: #007bff;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.navbar .navbar-nav .dropdown-menu {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-nav .dropdown-item {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.navbar .navbar-nav .dropdown-item:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.navbar-toggler-icon {
+    background-color: #007bff;
+}
+
+/* Tìm kiếm */
+.form-inline {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-inline .input-group {
+    width: 100%;
+}
+
+.form-inline .custom-select {
+    background-color: #fff;
+    color: #007bff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 5px 15px;
+    margin-left: 10px;
+}
+
+.form-inline .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    border-radius: 5px;
+    padding: 7px 15px;
+}
+
+.form-inline .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Dropdown menu cho đăng nhập */
+.navbar .dropdown-menu {
+    min-width: 200px;
+}
+
+.navbar .dropdown-item i {
+    margin-right: 10px;
+}
+
+/* Giao diện tối / sáng */
+.switch_color {
+    background-color: #181818 !important;
+    color: #fff !important;
+}
+
+.switch_color_light {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+.navbar .nav-item.dropdown.show .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hiệu ứng di chuyển menu dropdown */
+.navbar .navbar-nav .dropdown-menu li {
+    position: relative;
+}
+
+.navbar .navbar-nav .dropdown-item i {
+    margin-right: 10px;
+    font-size: 18px; /* Kích thước biểu tượng */
+}
+
+/* Điều chỉnh mũi tên */
+.navbar .navbar-nav .dropdown-menu a:hover::before {
+    content: "\f105"; /* Mũi tên hướng lên */
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900;
+    margin-left: 5px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+</style>

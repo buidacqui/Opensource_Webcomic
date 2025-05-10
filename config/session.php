@@ -19,7 +19,8 @@ return [
     */
 
     'driver' => env('SESSION_DRIVER', 'file'),
-
+'lifetime' => 120, // thời gian sống của session
+'expire_on_close' => false,
     /*
     |--------------------------------------------------------------------------
     | Session Lifetime

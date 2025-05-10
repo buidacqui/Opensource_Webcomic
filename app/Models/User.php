@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function lichsu()
+{
+    return $this->hasMany(LichSu::class);
+}
+
 }

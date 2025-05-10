@@ -18,5 +18,9 @@ class Chapter extends Model
         return $this->belongsTo('App\Models\Truyen');
 
     }
-    
+    public function lichsu()
+{
+    return $this->hasMany(LichSu::class, 'chapter_id');
+}
+
 }

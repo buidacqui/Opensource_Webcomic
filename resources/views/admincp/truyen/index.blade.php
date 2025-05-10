@@ -130,7 +130,7 @@
                                                 <i class="bi bi-pencil-square"></i> Sửa
                                             </a>
                                             <form action="{{ route('truyen.destroy', [$truyen->id]) }}" method="POST"
-                                                  onsubmit="return confirm('Bạn có chắc chắn muốn xóa truyện này không?');">
+                                                  onsubmit="return confir   m('Bạn có chắc chắn muốn xóa truyện này không?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm btn-action">

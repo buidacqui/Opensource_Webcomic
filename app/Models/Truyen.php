@@ -14,7 +14,7 @@ class Truyen extends Model
     ];
     public $timestamps = true;
     protected $fillable =[
-        'tentruyen', 'tomtat','kichhoat','slug_truyen','hinhanh','danhmuc_id','theloai_id','created_at','updated_at','truyen_noibat'
+        'tentruyen', 'tomtat','kichhoat','slug_truyen','hinhanh','danhmuc_id','theloai_id','created_at','updated_at','truyen_noibat','luotxem'
     ];
     protected $primaryKey= 'id';
     protected $table = 'truyen';
@@ -23,6 +23,7 @@ class Truyen extends Model
         return $this->belongsTo('App\Models\DanhmucTruyen','danhmuc_id','id');
     }
     public function chapter(){
+        
         return $this->hasMany('App\Models\DanhmucTruyen','truyen_id','id');
 
     }
@@ -35,4 +36,13 @@ class Truyen extends Model
     public function thuocnhieutheloaitruyen(){
         return $this->belongsToMany(Theloai::class,'thuocloai','truyen_id','theloai_id');
     }
+    public function ds_chapter()
+{
+    return $this->hasMany('App\Models\Chapter', 'truyen_id', 'id');
+}
+public function lichsu()
+{
+    return $this->hasMany(LichSu::class, 'truyen_id');
+}
+
 }

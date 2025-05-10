@@ -67,8 +67,8 @@
                         <a href="{{url('the-loai/'.$thuocloai->slug_theloai)}}"><span class="badge badge-info">{{$thuocloai->tentheloai}}</span></a>
                         @endforeach
                     </li>
-                    <li class="list-group-item"><strong>Số chapter:</strong> 2000</li>
-                    <li class="list-group-item"><strong>Lượt xem:</strong> 2000</li>
+                    <li class="list-group-item"><strong>Số chapter:</strong>   {{ $truyen->ds_chapter->count() }}</li>
+                    <li class="list-group-item"><strong>Lượt xem:</strong> {{ $truyen->luotxem }}</li>
                     <li class="list-group-item">
                         <a href="#mucluc" class="text-decoration-none">Xem mục lục</a>
                     </li>
@@ -79,9 +79,18 @@
                                class="btn btn-primary w-100">Đọc truyện</a>
                             <a href="{{ url('xem-chapter/' . $chapter_moinhat->slug_chapter) }}" 
                                class="btn btn-success w-100 mt-2">Chương mới nhất</a>
-                            <button class="btn btn-danger btn-thich_truyen w-100 mt-2">
-                                <i class="fa fa-heart me-1"></i>Thích truyện
+                               <form>
+                                @csrf
+                            <button type="button"
+                                onclick="return themyeuthich()" 
+                                data-fa_publisher_id="{{ Session::get('publisher_id') }}"
+                                data-fa_title="{{ $truyen->tentruyen }}"
+                                data-fa_image="{{ $truyen->hinhanh }}"
+                                class="btn btn-danger btn-yeuthichtruyen w-100 mt-2"
+                            >
+                                <i class="fa fa-heart me-1"></i>Yêu thích
                             </button>
+                            </form>
                         @else
                             <button class="btn btn-secondary w-100" disabled>Chưa có chương</button>
                         @endif

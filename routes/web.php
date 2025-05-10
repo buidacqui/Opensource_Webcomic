@@ -20,7 +20,7 @@ use App\Http\Controllers\SachController;
 |
 */
 
-Route::get('/', [IndexController::class,'home']);
+Route::get('/', [IndexController::class,'home'])->name('home');;
 Route::get('/danh-muc/{slug}', [IndexController::class,'danhmuc']);
 Route::get('/xem-truyen/{slug}', [IndexController::class,'xemtruyen']);
 Route::get('/xem-chapter/{slug}', [IndexController::class,'xemchapter']);
@@ -31,15 +31,19 @@ Route::put('/truyen/update-noibat/{id}', [TruyenController::class, 'updateNoibat
 Route::post('/tabs-danhmuc', [IndexController::class, 'tabs_danhmuc']);
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('homeadmin');
 Route::get('/doc-sach', [IndexController::class, 'docsach']);
 Route::get('/xemsachnhanh', [IndexController::class, 'xemsachnhanh']);
 Route::get('/dang-ky', [IndexController::class, 'dangky'])->name('dang-ky');
 Route::get('/dang-nhap', [IndexController::class, 'dangnhap'])->name('dang-nhap');
 Route::get('/dang-xuat', [IndexController::class, 'sign_out'])->name('dang-xuat');
-
+Route::get('/yeu-thich', [IndexController::class, 'yeu_thich'])->name('yeu-thich');
 Route::post('/register-publisher', [IndexController::class, 'register_publisher'])->name('register-publisher');
 Route::post('/login-publisher', [IndexController::class, 'login_publisher'])->name('login-publisher');
+Route::post('/themyeuthich', [IndexController::class, 'themyeuthich'])->name('themyeuthich');
+Route::post('xoayeuthich/{id}', [IndexController::class, 'xoayeuthich'])->name('xoayeuthich');
+Route::get('thong-tin', [IndexController::class, 'thongtincoban'])->name('thong-tin');
+Route::get('/lich-su', [IndexController::class, 'showHistory'])->name('lichsu.history');
 
 Route::resource('/danhmuc', DanhmucController::class);
 Route::resource('/truyen', TruyenController::class);
